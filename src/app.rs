@@ -1,3 +1,4 @@
+use pandoc::OutputKind;
 use serde::{Deserialize, Serialize};
 use serde_wasm_bindgen::to_value;
 use wasm_bindgen::prelude::*;
@@ -17,6 +18,10 @@ struct GreetArgs<'a> {
 
 #[function_component(App)]
 pub fn app() -> Html {
+    let mut pandoc = pandoc::new();
+    pandoc.add_input("hello_world.md");
+    pandoc.set_output(OutputKind::File("hello_world.pdf".to_string().into()));
+    pandoc.execute().unwrap();
     let greet_input_ref = use_node_ref();
 
     let name = use_state(|| String::new());

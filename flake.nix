@@ -31,6 +31,7 @@
           libsoup
           webkitgtk
           librsvg
+          pandoc
         ];
       in
       {
