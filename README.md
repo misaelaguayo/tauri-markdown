@@ -1,7 +1,11 @@
-# Tauri + Yew
+# Markdown tauri
 
-This template should help get you started developing with Tauri and Yew.
+A markdown previewer
 
-## Recommended IDE Setup
+## Dependencies
 
-[VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+Developed using nix. Run `nix develop` to install. Requires normal dependencies to run rust & yew tauri app
+
+## Running
+
+`cargo tauri dev`
