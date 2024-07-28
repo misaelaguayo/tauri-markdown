@@ -1,13 +1,9 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use pandoc::OutputKind;
+mod handler;
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+use pandoc::OutputKind;
 
 // convert markdown
 #[tauri::command]
@@ -17,6 +13,9 @@ fn convert(name: &str) -> String {
     pandoc.set_output(OutputKind::Pipe);
 
     let res = pandoc.execute().unwrap();
+
+    let mut nvim_handler = handler::NvimHandler::new();
+    nvim_handler.write_to_buffer("Hello from Rust!");
 
     match res {
         pandoc::PandocOutput::ToFile(_) => todo!(),
