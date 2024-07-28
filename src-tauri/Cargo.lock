@@ -2782,12 +2782,14 @@ dependencies = [
 name = "tauri-markdown-ts"
 version = "0.0.0"
 dependencies = [
+ "log",
  "neovim-lib",
  "pandoc",
  "serde",
  "serde_json",
  "tauri",
  "tauri-build",
+ "tokio",
 ]
 
 [[package]]
