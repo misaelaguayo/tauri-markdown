@@ -17,13 +17,13 @@ struct GreetArgs<'a> {
 
 #[function_component(App)]
 pub fn app() -> Html {
-    let greet_input_ref = use_node_ref();
+    let convert_input_ref = use_node_ref();
 
     let name = use_state(|| String::new());
 
-    let greet_msg = use_state(|| String::new());
+    let convert_msg = use_state(|| String::new());
     {
-        let greet_msg = greet_msg.clone();
+        let convert_msg = convert_msg.clone();
         let name = name.clone();
         let name2 = name.clone();
         use_effect_with(
@@ -36,8 +36,8 @@ pub fn app() -> Html {
 
                     let args = to_value(&GreetArgs { name: &*name }).unwrap();
                     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-                    let new_msg = invoke("greet", args).await.as_string().unwrap();
-                    greet_msg.set(new_msg);
+                    let new_msg = invoke("convert", args).await.as_string().unwrap();
+                    convert_msg.set(new_msg);
                 });
 
                 || {}
@@ -45,13 +45,13 @@ pub fn app() -> Html {
         );
     }
 
-    let greet = {
+    let convert = {
         let name = name.clone();
-        let greet_input_ref = greet_input_ref.clone();
+        let convert_input_ref = convert_input_ref.clone();
         Callback::from(move |e: SubmitEvent| {
             e.prevent_default();
             name.set(
-                greet_input_ref
+                convert_input_ref
                     .cast::<web_sys::HtmlInputElement>()
                     .unwrap()
                     .value(),
@@ -72,12 +72,12 @@ pub fn app() -> Html {
 
             <p>{"Click on the Tauri and Yew logos to learn more!"}</p>
 
-            <form class="row" onsubmit={greet}>
-                <input id="greet-input" ref={greet_input_ref} placeholder="Enter a name..." />
+            <form class="row" onsubmit={convert}>
+                <input id="convert-input" ref={convert_input_ref} placeholder="Enter a name..." />
                 <button type="submit">{"Greet"}</button>
             </form>
 
-            <p><b>{ &*greet_msg }</b></p>
+            <p><b>{ &*convert_msg }</b></p>
         </main>
     }
 }

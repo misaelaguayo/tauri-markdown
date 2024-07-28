@@ -9,13 +9,29 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
-fn main() {
+// convert markdown
+#[tauri::command]
+fn convert(name: &str) -> String {
     let mut pandoc = pandoc::new();
-    pandoc.add_input("hello_world.md");
-    pandoc.set_output(OutputKind::File("hello_world.html".to_string().into()));
-    pandoc.execute().unwrap();
+    pandoc.add_input(name);
+    pandoc.set_output(OutputKind::Pipe);
+
+    let res = pandoc.execute().unwrap();
+
+    match res {
+        pandoc::PandocOutput::ToFile(_) => todo!(),
+        pandoc::PandocOutput::ToBuffer(s) => {
+            println!("{}", s);
+            return s
+        },
+        pandoc::PandocOutput::ToBufferRaw(_) => todo!(),
+    }
+}
+
+fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        // .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![convert])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
