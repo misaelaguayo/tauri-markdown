@@ -1,13 +1,12 @@
 {
   "build": {
-    "beforeDevCommand": "trunk serve",
-    "beforeBuildCommand": "trunk build",
+    "beforeDevCommand": "bun run dev",
+    "beforeBuildCommand": "bun run build",
     "devPath": "http://localhost:1420",
-    "distDir": "../dist",
-    "withGlobalTauri": true
+    "distDir": "../dist"
   },
   "package": {
-    "productName": "tauri-markdown",
+    "productName": "tauri-markdown-ts",
     "version": "0.0.0"
   },
   "tauri": {
@@ -20,7 +19,7 @@
     },
     "windows": [
       {
-        "title": "tauri-markdown",
+        "title": "tauri-markdown-ts",
         "width": 800,
         "height": 600
       }

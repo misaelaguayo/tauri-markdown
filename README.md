@@ -1,11 +1,7 @@
-# Markdown tauri
+# Tauri + React + Typescript
 
-A markdown previewer
+This template should help get you started developing with Tauri, React and Typescript in Vite.
 
-## Dependencies
+## Recommended IDE Setup
 
-Developed using nix. Run `nix develop` to install. Requires normal dependencies to run rust & yew tauri app
-
-## Running
-
-`cargo tauri dev`
+- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)

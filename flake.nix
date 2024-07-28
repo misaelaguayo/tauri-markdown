@@ -18,6 +18,9 @@
           dbus
           openssl_3
           librsvg
+          bun
+          vite
+          pandoc
         ];
 
         packages = with pkgs; [
@@ -32,6 +35,8 @@
           webkitgtk
           librsvg
           pandoc
+          nodejs_22
+          bun
         ];
       in
       {
