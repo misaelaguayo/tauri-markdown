@@ -1,6 +1,7 @@
+use std::sync::mpsc::Sender;
+
 use neovim_lib::{Neovim, NeovimApi, Session, UiAttachOptions};
 use log::info;
-use tokio::sync::watch::Sender;
 
 pub struct NvimHandler {
     nvim: Neovim,
@@ -15,7 +16,7 @@ impl NvimHandler {
         NvimHandler { nvim, sender }
     }
 
-    pub async fn recv(&mut self) {
+    pub fn recv(&mut self) {
         let receiver = self.nvim.session.start_event_loop_channel();
         let current_buffer = self.nvim.get_current_buf().unwrap();
 
@@ -44,7 +45,7 @@ impl NvimHandler {
                 "redraw" => {},
                 "nvim_buf_lines_event" => {
                     let _ = self.curr_buff_to_string();
-                    self.sender.send("hello".to_string());
+                    let _ = self.sender.send("buf_lines".to_string());
                 },
                 "nvim_buf_detach_event" => {},
                 "rust_doc_open" => {},

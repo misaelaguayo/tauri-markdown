@@ -1,38 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactHtmlParser from 'react-html-parser'
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
+import { listen } from "@tauri-apps/api/event";
 import "./App.css";
 
 function App() {
-  const [convertMsg, setConvertMsg] = useState("");
-  const [name, setName] = useState("");
+    const [convertMsg, setConvertMsg] = useState("");
+    const [name, setName] = useState("");
 
-  async function convert() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setConvertMsg(await invoke("convert", { name }));
-  }
+    type Payload = {
+        message: string;
+    }
 
-  return (
-    <div className="container">
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          convert();
-        }}
-      >
-        <input
-          id="convert-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Convert</button>
-      </form>
+    useEffect(() => {
+        const listener = async () => await listen<Payload>("test", (event) => {
+            console.log("Event triggered from rust: " + event.payload.message);
+        })
 
-      {convertMsg ? ReactHtmlParser(convertMsg) : ""}
-    </div>
-  );
+        listener();
+    }, []);
+
+    async function convert() {
+        // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+        setConvertMsg(await invoke("convert", { name }));
+    }
+
+    async function testAppHandle() {
+        await invoke("test_app_handle");
+    }
+
+    return (
+        <div className="container">
+            <button onClick={() => testAppHandle()}>Start Event Listener</button>
+
+            {convertMsg ? ReactHtmlParser(convertMsg) : ""}
+        </div>
+    );
 }
 
 export default App;
