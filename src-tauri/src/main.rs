@@ -15,8 +15,30 @@ struct Payload {
 
 #[tauri::command]
 async fn test_app_handle(app: tauri::AppHandle) {
-    println!("Sending message to all windows");
-    app.emit_all("test", Payload { message: "Tauri is awesome".into() }).unwrap();
+    let (sender, receiver) = channel();
+
+    let mut nvim_handler = handler::NvimHandler::new(sender);
+
+    thread::spawn(move || {
+        nvim_handler.recv();
+    });
+
+    thread::spawn(move || {
+        for buf_string in receiver {
+            let mut pandoc = pandoc::new();
+
+            pandoc.set_input(pandoc::InputKind::Pipe(buf_string.clone()));
+            pandoc.set_output(OutputKind::Pipe);
+            let res = pandoc.execute().unwrap();
+
+            if let pandoc::PandocOutput::ToBuffer(s) = res {
+                let payload = Payload {
+                    message: s,
+                };
+                app.emit_all("test", payload).unwrap();
+            }
+        }
+    });
 }
 
 // convert markdown

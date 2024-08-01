@@ -44,8 +44,8 @@ impl NvimHandler {
             match event.as_str() {
                 "redraw" => {},
                 "nvim_buf_lines_event" => {
-                    let _ = self.curr_buff_to_string();
-                    let _ = self.sender.send("buf_lines".to_string());
+                    let buff_string = self.curr_buff_to_string();
+                    let _ = self.sender.send(buff_string);
                 },
                 "nvim_buf_detach_event" => {},
                 "rust_doc_open" => {},
