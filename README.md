@@ -1,5 +1,7 @@
 # Markdown viewer
 
+<img width="1704" alt="Markdown" src="https://github.com/user-attachments/assets/617e8744-cdbe-4111-81ef-8db2b369c0ef">
+
 Simple live markdown viewer using pandoc and tauri. This does not open a separate browser
 and handles live updates using the nvim api.
 
