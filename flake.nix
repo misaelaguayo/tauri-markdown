@@ -21,6 +21,7 @@
           bun
           vite
           pandoc
+          pango
         ];
 
         packages = with pkgs; [
