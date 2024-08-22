@@ -21,7 +21,7 @@ nix develop
 
 ## Usage
 ```bash
-nvim --listen 127.0.0.1 (TODO: Automatically call binary in nvim plugin)
+nvim --listen 127.0.0.1:6666 (TODO: Automatically call binary in nvim plugin)
 bun run tauri dev
 ```
 
